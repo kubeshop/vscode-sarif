@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install eslint and formatter
         run: npm i eslint @microsoft/eslint-formatter-sarif
@@ -23,18 +23,6 @@ jobs:
              --format @microsoft/eslint-formatter-sarif
              --output-file eslint.sarif
         continue-on-error: true
-
-      - name: Upload SARIF to GitHub
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: eslint.sarif
-
-      - name: Upload SARIF as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: eslint
-          path: eslint.sarif
-
 
   unit-test:
     runs-on: ${{ matrix.os }}
@@ -46,12 +34,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 18
 
       - name: Cache dependencies
         id: cache-dependencies
