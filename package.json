@@ -44,7 +44,7 @@
                 "sarif-viewer.explorer.openWhenNoResults": {
                     "description": "Indicates whether to open the explorer when there are no results in the log.",
                     "type": "boolean",
-                    "default": true
+                    "default": false
                 },
                 "sarif-viewer.connectToGithubCodeScanning": {
                     "description": "Connect to GitHub and display any code scanning results. Setting takes effect on editor restart.",
@@ -59,7 +59,7 @@
                         "",
                         "Intended for first-time users."
                     ],
-                    "default": "prompt"
+                    "default": "off"
                 },
                 "sarif-viewer.updateChannel": {
                     "description": "Specifies the type of updates the extension receives.",
