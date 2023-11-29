@@ -3,6 +3,7 @@
 
 import { StatusBarAlignment, StatusBarItem, window } from 'vscode';
 import { observable, observe } from 'mobx';
+import { getCustomization } from '../customization';
 
 let statusBarItem: StatusBarItem | undefined;
 
@@ -12,6 +13,10 @@ function getStatusText() {
 }
 
 export function activateSarifStatusBarItem(disposables: { dispose(): void }[]): void {
+    const hideIcon = getCustomization<boolean>('hideIcon', false);
+
+    if (hideIcon) return;
+
     if (statusBarItem) return;
 
     statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
