@@ -53,7 +53,7 @@ function getHttpsProxyAgent() {
 }
 
 export const updateChannelConfigSection = 'updateChannel';
-const extensionName = 'sarif-viewer';
+const extensionName = 'monokle-sarif';
 let updateInProgress = false;
 
 function isUpdateEnabled() {

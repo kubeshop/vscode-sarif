@@ -108,7 +108,7 @@ export class UriRebaser {
         return this.validatedUrisLocalToArtifact.get(localUri.toString());
     }
 
-    private extensionName = 'sarif-viewer'
+    private extensionName = 'monokle-sarif'
     private trustedSourceSitesConfigSection = 'trustedSourceSites';
     private trustedSites = workspace.getConfiguration(this.extensionName).get<string[]>(this.trustedSourceSitesConfigSection, []);
     private activeInfoMessages = new Set<string>() // Prevent repeat message animations when arrowing through many results with the same uri.

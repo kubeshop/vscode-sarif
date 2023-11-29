@@ -37,7 +37,7 @@ We welcome feedback via [issues](https://github.com/microsoft/sarif-vscode-exten
 ## API
 An [extension-to-extension public API](https://code.visualstudio.com/api/references/vscode-api#extensions) is offered. This API is defined at `src/extension/index.d.ts`. An example of another extension calling this extension:
 ```javascript
-const sarifExt = extensions.getExtension('MS-SarifVSCode.sarif-viewer');
+const sarifExt = extensions.getExtension('kubeshop.monokle-sarif');
 if (!sarifExt.isActive) await sarifExt.activate();
 await sarifExt.exports.openLogs([
    Uri.file('c:/samples/demo.sarif'),

@@ -71,16 +71,16 @@ type ConnectToGithubCodeScanning = 'off' | 'on' | 'prompt' | 'injected' | undefi
 
 export function activateGithubAnalyses(disposables: Disposable[], store: Store, panel: Panel, outputChannel: OutputChannel) {
     disposables.push(workspace.onDidChangeConfiguration(e => {
-        if (!e.affectsConfiguration('sarif-viewer.connectToGithubCodeScanning')) return;
-        const connectToGithubCodeScanning = workspace.getConfiguration('sarif-viewer').get<ConnectToGithubCodeScanning>('connectToGithubCodeScanning');
+        if (!e.affectsConfiguration('monokle-sarif.connectToGithubCodeScanning')) return;
+        const connectToGithubCodeScanning = workspace.getConfiguration('monokle-sarif').get<ConnectToGithubCodeScanning>('connectToGithubCodeScanning');
         sendGithubConfig(connectToGithubCodeScanning ?? 'undefined');
     }));
 
     // See configurations comments at the bottom of this file.
-    const fullCodeScanningAlert = workspace.getConfiguration('sarif-viewer').get<string>('githubCodeScanningInitialAlert');
+    const fullCodeScanningAlert = workspace.getConfiguration('monokle-sarif').get<string>('githubCodeScanningInitialAlert');
     const connectToGithubCodeScanning: ConnectToGithubCodeScanning = fullCodeScanningAlert
         ? 'injected'
-        : workspace.getConfiguration('sarif-viewer').get<ConnectToGithubCodeScanning>('connectToGithubCodeScanning');
+        : workspace.getConfiguration('monokle-sarif').get<ConnectToGithubCodeScanning>('connectToGithubCodeScanning');
     outputChannel.appendLine(`Connect to GitHub Code Scanning: ${connectToGithubCodeScanning}.`);
     if (connectToGithubCodeScanning === 'off') {
         return;
@@ -152,7 +152,7 @@ export function activateGithubAnalyses(disposables: Disposable[], store: Store, 
             sendGithubPromptChoice(choice);
             if (choice === 'Never') {
                 outputChannel.appendLine('Never connect to GitHub Code Scanning by user request.');
-                workspace.getConfiguration('sarif-viewer').update('connectToGithubCodeScanning', 'off');
+                workspace.getConfiguration('monokle-sarif').update('connectToGithubCodeScanning', 'off');
             } else if (choice === 'Connect') {
                 const analysisFound = await window.withProgress<boolean>({ location: ProgressLocation.Notification }, async progress => {
                     progress.report({ increment: 20 }); // 20 is arbitrary as we have a non-deterministic number of steps.
@@ -161,7 +161,7 @@ export function activateGithubAnalyses(disposables: Disposable[], store: Store, 
                         progress.report({ message, increment: 20 });
                     });
                     if (analysisInfo) {
-                        workspace.getConfiguration('sarif-viewer').update('connectToGithubCodeScanning', 'on');
+                        workspace.getConfiguration('monokle-sarif').update('connectToGithubCodeScanning', 'on');
                         await panel.show();
                         updateAnalysisInfo(analysisInfo);
                         beginWatch(repo);
@@ -176,7 +176,7 @@ export function activateGithubAnalyses(disposables: Disposable[], store: Store, 
                     );
                     sendGithubAnalysisFound(`Not Found: ${choiceTryAgain ?? 'undefined'}`);
                     if (choiceTryAgain === 'No') {
-                        workspace.getConfiguration('sarif-viewer').update('connectToGithubCodeScanning', 'off');
+                        workspace.getConfiguration('monokle-sarif').update('connectToGithubCodeScanning', 'off');
                     }
                 } else {
                     sendGithubAnalysisFound('Found');
@@ -196,7 +196,7 @@ export function activateGithubAnalyses(disposables: Disposable[], store: Store, 
             // Now that the analysis has been successfully applied, avoid re-applying it in the future.
             // Make sure to update the config value to '' instead of `undefined` to ensure that the
             // default value is not used. This default value may have been injected by a codespace.
-            await workspace.getConfiguration('sarif-viewer').update('githubCodeScanningInitialAlert', '', ConfigurationTarget.Global);
+            await workspace.getConfiguration('monokle-sarif').update('githubCodeScanningInitialAlert', '', ConfigurationTarget.Global);
         } else {
             // Note that if connectToGithubCodeScanning is undefined, it is treated as 'on'.
             // Force a fetch of the analysis for the current branch.

@@ -35,9 +35,9 @@ export function activateFixes(disposables: Disposable[], store: Pick<Store, 'ana
                     new ResultQuickFix(diagnostic, result), // Mark as fixed
                     ...result.fixes?.map(fix => new ResultQuickFix(diagnostic, result, fix)) ?? [],
                     ...result.properties?.['github/alertNumber'] === undefined ? [] : [ // Assumes only GitHub will use `github/alertNumber`.
-                        new  DismissCodeAction(diagnostic, result, 'sarif.alertDismissFalsePositive', 'False Positive'),
-                        new  DismissCodeAction(diagnostic, result, 'sarif.alertDismissUsedInTests', 'Used in Tests'),
-                        new  DismissCodeAction(diagnostic, result, 'sarif.alertDismissWontFix', 'Won\'t Fix'),
+                        new  DismissCodeAction(diagnostic, result, 'monokle-sarif.alertDismissFalsePositive', 'False Positive'),
+                        new  DismissCodeAction(diagnostic, result, 'monokle-sarif.alertDismissUsedInTests', 'Used in Tests'),
+                        new  DismissCodeAction(diagnostic, result, 'monokle-sarif.alertDismissWontFix', 'Won\'t Fix'),
                     ],
                 ];
             },

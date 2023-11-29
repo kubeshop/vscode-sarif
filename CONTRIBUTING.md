@@ -29,7 +29,7 @@ to VSC marketplace and creates GitHub release.
 
 You can verify the release by:
 
-* Looking on the [Marketplace page](https://marketplace.visualstudio.com/items?itemName=kubeshop.monokle-sarif-viewer) to see if latest release is there.
+* Looking on the [Marketplace page](https://marketplace.visualstudio.com/items?itemName=kubeshop.monokle-sarif) to see if latest release is there.
 * Looking on GitHub [release list](https://github.com/kubeshop/vscode-sarif/releases) to see if latest release is there.
 
 ---
