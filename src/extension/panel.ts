@@ -13,9 +13,10 @@ import { loadLogs } from './loadLogs';
 import { driftedRegionToSelection } from './regionToSelection';
 import { Store } from './store';
 import { UriRebaser } from './uriRebaser';
+import { getCustomization } from '../customization';
 
 export class Panel {
-    private title = 'SARIF Result'
+    private title = getCustomization<string>('panelTitle', 'SARIF Result');
     @observable private panel: WebviewPanel | null = null
 
     constructor(
