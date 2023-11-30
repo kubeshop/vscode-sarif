@@ -43,5 +43,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ steps.publishPackage.outputs.vsixPath }}
-          asset_name: monokle.vsix
+          asset_name: monokle-sarif.vsix
           asset_content_type: application/octet-stream
