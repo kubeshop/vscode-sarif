@@ -21,6 +21,15 @@
                 "<node_internals>/**/*.js",
                 "${workspaceFolder}/node_modules/**/*.js",
             ]
-        }
+        },
+        {
+            "name": "Run Extension",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
+            "sourceMaps": true,
+            "outFiles": [ "${workspaceRoot}/out/**/*.js" ]
+        },
     ]
 }

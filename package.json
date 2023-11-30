@@ -1,17 +1,17 @@
 {
-    "name": "sarif-viewer",
-    "displayName": "SARIF Viewer",
-    "description": "Adds support for viewing SARIF logs",
-    "author": "Microsoft Corporation",
+    "name": "monokle-sarif",
+    "displayName": "Monokle SARIF Viewer",
+    "description": "Adds support for viewing SARIF logs, fork of Sarif Viewer by Microsoft Corporation",
+    "author": "Kubeshop",
     "license": "MIT",
     "version": "3.4.2",
-    "publisher": "MS-SarifVSCode",
+    "publisher": "Kubeshop",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Microsoft/sarif-vscode-extension.git"
+        "url": "https://github.com/kubeshop/vscode-monokle.git"
     },
     "bugs": {
-        "url": "https://github.com/Microsoft/sarif-vscode-extension/issues"
+        "url": "https://github.com/kubeshop/vscode-monokle/issues"
     },
     "icon": "icon.png",
     "categories": [
@@ -37,16 +37,16 @@
         "configuration": {
             "title": "SARIF Viewer",
             "properties": {
-                "sarif-viewer.rootpaths": {
+                "monokle-sarif.rootpaths": {
                     "type": "array",
                     "description": "Add root paths for default mapping of locations in the sarif file that can't be found (ex. the local root directory of your repo)."
                 },
-                "sarif-viewer.explorer.openWhenNoResults": {
+                "monokle-sarif.explorer.openWhenNoResults": {
                     "description": "Indicates whether to open the explorer when there are no results in the log.",
                     "type": "boolean",
-                    "default": true
+                    "default": false
                 },
-                "sarif-viewer.connectToGithubCodeScanning": {
+                "monokle-sarif.connectToGithubCodeScanning": {
                     "description": "Connect to GitHub and display any code scanning results. Setting takes effect on editor restart.",
                     "type": "string",
                     "enum": [
@@ -59,9 +59,9 @@
                         "",
                         "Intended for first-time users."
                     ],
-                    "default": "prompt"
+                    "default": "off"
                 },
-                "sarif-viewer.updateChannel": {
+                "monokle-sarif.updateChannel": {
                     "description": "Specifies the type of updates the extension receives.",
                     "type": "string",
                     "enum": [
@@ -75,7 +75,7 @@
                     "default": "Default",
                     "scope": "application"
                 },
-                "sarif-viewer.githubCodeScanningInitialAlert": {
+                "monokle-sarif.githubCodeScanningInitialAlert": {
                     "description": "Specifies an initial alert to load into the UI on when the IDE starts. This is meant to be set programmatically.",
                     "type": "string",
                     "ignoreSync": true,
@@ -93,43 +93,43 @@
         ],
         "commands": [
             {
-                "command": "sarif.showPanel",
-                "category": "SARIF",
+                "command": "monokle-sarif.showPanel",
+                "category": "Monokle Sarif",
                 "title": "Show Panel"
             },
             {
-                "command": "sarif.clearState",
-                "category": "SARIF",
+                "command": "monokle-sarif.clearState",
+                "category": "Monokle Sarif",
                 "title": "Clear State"
             },
             {
-                "command": "sarif.alertDismissFalsePositive",
-                "category": "SARIF",
+                "command": "monokle-sarif.alertDismissFalsePositive",
+                "category": "Monokle Sarif",
                 "title": "Dismiss - False Positive"
             },
             {
-                "command": "sarif.alertDismissUsedInTests",
-                "category": "SARIF",
+                "command": "monokle-sarif.alertDismissUsedInTests",
+                "category": "Monokle Sarif",
                 "title": "Dismiss - Used in Tests"
             },
             {
-                "command": "sarif.alertDismissWontFix",
-                "category": "SARIF",
+                "command": "monokle-sarif.alertDismissWontFix",
+                "category": "Monokle Sarif",
                 "title": "Dismiss - Won't Fix"
             }
         ],
         "menus": {
             "webview/context": [
                 {
-                    "command": "sarif.alertDismissFalsePositive",
+                    "command": "monokle-sarif.alertDismissFalsePositive",
                     "when": "webviewId == 'sarif' && webviewSection == 'isGithubAlert'"
                 },
                 {
-                    "command": "sarif.alertDismissUsedInTests",
+                    "command": "monokle-sarif.alertDismissUsedInTests",
                     "when": "webviewId == 'sarif' && webviewSection == 'isGithubAlert'"
                 },
                 {
-                    "command": "sarif.alertDismissWontFix",
+                    "command": "monokle-sarif.alertDismissWontFix",
                     "when": "webviewId == 'sarif' && webviewSection == 'isGithubAlert'"
                 }
             ]

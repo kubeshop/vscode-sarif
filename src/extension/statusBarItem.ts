@@ -17,7 +17,7 @@ export function activateSarifStatusBarItem(disposables: { dispose(): void }[]): 
     statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
     disposables.push(statusBarItem);
     statusBarItem.text = getStatusText();
-    statusBarItem.command = 'sarif.showPanel';
+    statusBarItem.command = 'monokle-sarif.showPanel';
     statusBarItem.tooltip ='Show SARIF Panel';
     statusBarItem.show();
 

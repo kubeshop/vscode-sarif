@@ -45,9 +45,9 @@ export function activateGithubCommands(disposables: Disposable[], store: Store, 
     }
 
     disposables.push(
-        commands.registerCommand('sarif.alertDismissFalsePositive', async (context) => dismissAlert(context, 'false positive')),
-        commands.registerCommand('sarif.alertDismissUsedInTests',   async (context) => dismissAlert(context, 'used in tests')),
-        commands.registerCommand('sarif.alertDismissWontFix',       async (context) => dismissAlert(context, 'won\'t fix')),
+        commands.registerCommand('monokle-sarif.alertDismissFalsePositive', async (context) => dismissAlert(context, 'false positive')),
+        commands.registerCommand('monokle-sarif.alertDismissUsedInTests',   async (context) => dismissAlert(context, 'used in tests')),
+        commands.registerCommand('monokle-sarif.alertDismissWontFix',       async (context) => dismissAlert(context, 'won\'t fix')),
     );
 }
 

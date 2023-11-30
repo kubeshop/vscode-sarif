@@ -47,7 +47,7 @@ describe.skip('activate', () => {
     });
 
     it('can postSelectArtifact', async () => {
-        await mockVscode.commands.executeCommand('sarif.showPanel');
+        await mockVscode.commands.executeCommand('monokle-sarif.showPanel');
         const { postSelectArtifact } = proxyquire('../panel/indexStore', {
             '../panel/isActive': {
                 isActive: () => true,

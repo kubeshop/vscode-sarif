@@ -41,7 +41,7 @@ export async function activate(context: ExtensionContext): Promise<Api> {
     disposables.push(outputChannel);
 
     Store.globalState = context.globalState;
-    disposables.push(commands.registerCommand('sarif.clearState', () => {
+    disposables.push(commands.registerCommand('monokle-sarif.clearState', () => {
         context.globalState.update('view', undefined);
         commands.executeCommand('workbench.action.reloadWindow');
     }));
@@ -52,7 +52,7 @@ export async function activate(context: ExtensionContext): Promise<Api> {
 
     // Panel
     const panel = new Panel(context, baser, store);
-    disposables.push(commands.registerCommand('sarif.showPanel', () => panel.show()));
+    disposables.push(commands.registerCommand('monokle-sarif.showPanel', () => panel.show()));
 
     // URI handler
     disposables.push(window.registerUriHandler({

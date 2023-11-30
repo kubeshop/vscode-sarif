@@ -1,6 +1,42 @@
+# Contributing
+
+> See section after this one for most of the stuff.
+
+## Releasing
+
+Most of the release process is done automatically through GitHub CI. However it requires few manual steps:
+
+1. Make sure you are on `main` branch and have latest changes and no local modifications:
+
+```bash
+git checkout main
+git fetch --all
+git reset --hard origin/main
+```
+
+2. Update `CHANGELOG.md` file with release info (if needed) and push to `main` branch.
+
+3. Run `npm version [patch|minor|major]` to bump package version and push (`main` and tag) to remote:
+
+```bash
+npm version patch
+git push origin main
+git push origin vA.B.C
+```
+
+Pushing a tag to remote triggers release process (see `release.yml` workflow file), which publishes
+to VSC marketplace and creates GitHub release.
+
+You can verify the release by:
+
+* Looking on the [Marketplace page](https://marketplace.visualstudio.com/items?itemName=kubeshop.monokle-sarif) to see if latest release is there.
+* Looking on GitHub [release list](https://github.com/kubeshop/vscode-sarif/releases) to see if latest release is there.
+
+---
+
+> Below is the content of original CONTRIBUTING file.
+
 # Contributing to SARIF Viewer
-
-
 
 ## Overview
 The instructions in this document will help you get started with the SARIF Viewer extension for Visual Studio Code.
