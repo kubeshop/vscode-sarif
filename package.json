@@ -4,7 +4,7 @@
     "description": "Adds support for viewing SARIF logs, fork of Sarif Viewer by Microsoft Corporation",
     "author": "Kubeshop",
     "license": "MIT",
-    "version": "3.4.2",
+    "version": "1.0.0",
     "publisher": "Kubeshop",
     "repository": {
         "type": "git",
