@@ -72,7 +72,7 @@ interface DetailsProps { result: Result, resultsFixed: string[], height: IObserv
                             <span>Rule Id</span>			{helpUri ? <a href={helpUri} target="_blank" rel="noopener noreferrer">{result.ruleId}</a> : <span>{result.ruleId}</span>}
                             <span>Rule Name</span>			<span>{result._rule?.name ?? '—'}</span>
                             <span>Rule Description</span>	<span>{renderRuleDesc(result)}</span>
-                            <span><strong>Hint</strong></span>				<span>{result._rule?.help?.text ?? '—'}</span>
+                            <span>Remediation</span>				<span>{result._rule?.help?.text ?? '—'}</span>
                             <span>Level</span>				<span>{result.level}</span>
                             <span>Locations</span>			<span className="svDetailsGridLocations">
                                                                 {result.locations?.map((loc, i) => {
