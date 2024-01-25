@@ -6,6 +6,7 @@ import { Result } from 'sarif';
 import { Visibility } from '../shared';
 import { IndexStore } from './indexStore';
 import { Column, Row, TableStore } from './tableStore';
+import { getCustomization } from '../customization';
 
 export class ResultTableStore<G> extends TableStore<Result, G> {
     constructor(
@@ -77,7 +78,8 @@ export class ResultTableStore<G> extends TableStore<Result, G> {
     }
 
     public isLineThrough(result: Result): boolean {
-        return this.resultsSource.resultsFixed.includes(JSON.stringify(result._id));
+        return this.resultsSource.resultsFixed.includes(JSON.stringify(result._id)) ||
+            (getCustomization<boolean>('excludeSuppressedResults', false) && result._suppression === 'suppressed');
     }
 
     public menuContext(result: Result): Record<string, string> | undefined {
