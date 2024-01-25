@@ -3,4 +3,5 @@ export const CUSTOMIZATIONS: Record<string, string | number | boolean> = {
     hideIcon: true,
     disableMarkAsFixed: true,
     disableFixes: true,
+    excludeSuppressedResults: true,
 };
