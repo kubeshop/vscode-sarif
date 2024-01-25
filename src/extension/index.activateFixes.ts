@@ -14,6 +14,7 @@ import { UriRebaser } from './uriRebaser';
 import { getInitializedGitApi } from './index.activateGithubAnalyses';
 import * as path from 'path';
 import * as os from 'os';
+import { getCustomization } from '../customization';
 
 export function activateFixes(disposables: Disposable[], store: Pick<Store, 'analysisInfo' | 'resultsFixed'>, baser: UriRebaser) {
     disposables.push(languages.registerCodeActionsProvider('*',
@@ -32,7 +33,7 @@ export function activateFixes(disposables: Disposable[], store: Pick<Store, 'ana
                 if (!result) return undefined;
 
                 return [
-                    new ResultQuickFix(diagnostic, result), // Mark as fixed
+                    ...getCustomization<boolean>('disableMarkAsFixed', false) ? [] : [new ResultQuickFix(diagnostic, result)], // Mark as fixed
                     ...result.fixes?.map(fix => new ResultQuickFix(diagnostic, result, fix)) ?? [],
                     ...result.properties?.['github/alertNumber'] === undefined ? [] : [ // Assumes only GitHub will use `github/alertNumber`.
                         new  DismissCodeAction(diagnostic, result, 'monokle-sarif.alertDismissFalsePositive', 'False Positive'),
