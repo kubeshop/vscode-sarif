@@ -152,6 +152,18 @@ export async function activate(context: ExtensionContext): Promise<Api> {
 
     // API
     const api = {
+        async loadLogs(logs: Uri[], options?: Record<string, boolean>, cancellationToken?: CancellationToken) {
+            watcher.add(logs.map(log => log.fsPath));
+            store.logs.push(...await loadLogs(logs, cancellationToken));
+
+            if (cancellationToken?.isCancellationRequested) {
+                return;
+            }
+
+            if (options?.openPanel && store.results.length || options?.forceOpenPanel) {
+                return panel.show();
+            }
+        },
         async openLogs(logs: Uri[], _options?: unknown, cancellationToken?: CancellationToken) {
             watcher.add(logs.map(log => log.fsPath));
             store.logs.push(...await loadLogs(logs, cancellationToken));
