@@ -2,6 +2,13 @@
 // Licensed under the MIT License.
 
 import { CancellationToken, Uri } from 'vscode';
+import { ResultId } from '../shared';
+
+export type LoadLogsOptions = {
+    openPanel?: boolean;
+    forceOpenPanel?: boolean;
+    resultId?: ResultId;
+}
 
 /**
  * This API is consumed by other extensions. Breaking changes to this API must
@@ -12,7 +19,7 @@ export interface Api {
      * Note: If a log has been modified after open was opened, a close and re-open will be required to "refresh" that log.
      * @param logs An array of Uris to open.
      */
-    loadLogs(logs: Uri[], options?: Record<string, boolean>): Promise<void>;
+    loadLogs(logs: Uri[], options?: LoadLogsOptions): Promise<void>;
     openLogs(logs: Uri[]): Promise<void>;
     closeLogs(logs: Uri[], _options?: unknown, cancellationToken?: CancellationToken): Promise<void>;
     closeAllLogs(): Promise<void>;

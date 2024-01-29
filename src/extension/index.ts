@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Api } from './index.d';
+import { Api, LoadLogsOptions } from './index.d';
 import * as vscode from 'vscode';
 import { watch } from 'chokidar';
 import { diffChars } from 'diff';
@@ -52,7 +52,13 @@ export async function activate(context: ExtensionContext): Promise<Api> {
 
     // Panel
     const panel = new Panel(context, baser, store);
-    disposables.push(commands.registerCommand('monokle-sarif.showPanel', () => panel.show()));
+    disposables.push(commands.registerCommand('monokle-sarif.showPanel', async (args) => {
+        await panel.show();
+
+        if (args?.[0]) {
+            panel.selectById(args[0]);
+        }
+    }));
 
     // URI handler
     disposables.push(window.registerUriHandler({
@@ -152,7 +158,7 @@ export async function activate(context: ExtensionContext): Promise<Api> {
 
     // API
     const api = {
-        async loadLogs(logs: Uri[], options?: Record<string, boolean>, cancellationToken?: CancellationToken) {
+        async loadLogs(logs: Uri[], options?: LoadLogsOptions, cancellationToken?: CancellationToken) {
             watcher.add(logs.map(log => log.fsPath));
             store.logs.push(...await loadLogs(logs, cancellationToken));
 
@@ -161,7 +167,11 @@ export async function activate(context: ExtensionContext): Promise<Api> {
             }
 
             if (options?.openPanel && store.results.length || options?.forceOpenPanel) {
-                return panel.show();
+                await panel.show();
+
+                if (options?.resultId) {
+                    panel.selectById(options.resultId);
+                }
             }
         },
         async openLogs(logs: Uri[], _options?: unknown, cancellationToken?: CancellationToken) {
