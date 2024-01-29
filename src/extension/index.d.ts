@@ -12,6 +12,7 @@ export interface Api {
      * Note: If a log has been modified after open was opened, a close and re-open will be required to "refresh" that log.
      * @param logs An array of Uris to open.
      */
+    loadLogs(logs: Uri[], options?: Record<string, boolean>): Promise<void>;
     openLogs(logs: Uri[]): Promise<void>;
     closeLogs(logs: Uri[], _options?: unknown, cancellationToken?: CancellationToken): Promise<void>;
     closeAllLogs(): Promise<void>;
