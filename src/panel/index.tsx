@@ -11,7 +11,7 @@ import '../shared/extension';
 import { Details } from './details';
 import { FilterKeywordContext } from './filterKeywordContext';
 import './index.scss';
-import { IndexStore, postLoad, postRefresh } from './indexStore';
+import { IndexStore, postLoad, postLoaded, postRefresh } from './indexStore';
 import { ResultTable } from './resultTable';
 import { RowItem } from './tableStore';
 import { Checkrow, Icon, Popover, ResizeHandle, Tab, TabPanel } from './widgets';
@@ -132,6 +132,12 @@ export { DetailsLayouts } from './details.layouts';
     componentDidMount() {
         addEventListener('message', this.props.store.onMessage);
         postLoad();
+    }
+
+    componentDidUpdate(prevProps: Readonly<{ store: IndexStore }>): void {
+        setTimeout(() => {
+            postLoaded();
+        }, 0);
     }
 
     componentWillUnmount() {

@@ -17,6 +17,9 @@ import { getCustomization } from '../customization';
 
 export class Panel {
     private title = getCustomization<string>('panelTitle', 'SARIF Result');
+    private logsLoaded = false;
+    private selectOnReady: ResultId | undefined = undefined;
+
     @observable private panel: WebviewPanel | null = null
 
     constructor(
@@ -44,6 +47,8 @@ export class Panel {
     }
 
     public async show() {
+        this.logsLoaded = false;
+
         if (this.panel) {
             if (!this.panel.active) this.panel.reveal(undefined, true);
             return;
@@ -59,7 +64,10 @@ export class Panel {
                 retainContextWhenHidden: true,
             }
         );
-        this.panel.onDidDispose(() => this.panel = null);
+        this.panel.onDidDispose(() => {
+            this.panel = null;
+            this.logsLoaded = false;
+        });
 
         const srcPanel = Uri.file(`${context.extensionPath}/out/panel.js`);
         const srcInit = Uri.file(`${context.extensionPath}/out/init.js`);
@@ -103,6 +111,14 @@ export class Panel {
                 case 'load' : {
                     // Extension sends Panel an initial set of logs.
                     await this.panel?.webview.postMessage(this.createSpliceLogsMessage([], store.logs));
+                    break;
+                }
+                case 'loaded': {
+                    this.logsLoaded = true;
+                    if (this.selectOnReady) {
+                        this.selectById(this.selectOnReady);
+                        this.selectOnReady = undefined;
+                    }
                     break;
                 }
                 case 'open': {
@@ -208,8 +224,17 @@ export class Panel {
     }
 
     public select(result: Result) {
-        if (!result?._id) return; // Reduce Panel selection flicker.
-        this.panel?.webview.postMessage({ command: 'select', id: result?._id });
+        this.selectById(result?._id);
+    }
+
+    public selectById(id: ResultId) {
+        if (!id) return; // Reduce Panel selection flicker.
+
+        if (this.logsLoaded) {
+            this.panel?.webview.postMessage({ command: 'select', id });
+        } else {
+            this.selectOnReady = id;
+        }
     }
 
     public selectByIndex(uri: Uri, runIndex: number, resultIndex: number) {
