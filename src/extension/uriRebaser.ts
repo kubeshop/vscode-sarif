@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Uri, window, workspace, ConfigurationTarget } from 'vscode';
+import { Uri, window, workspace, ConfigurationTarget, CancellationTokenSource } from 'vscode';
 import '../shared/extension';
 import platformUriNormalize from './platformUriNormalize';
 import { Store } from './store';
@@ -13,14 +13,37 @@ import * as os from 'os';
 import fetch from 'node-fetch';
 
 const workspaceDistinctFilenameCache: Map<string, Uri | undefined> = new Map();
+const findCancellationTokensCache: Map<string, CancellationTokenSource> = new Map();
 
 async function workspaceHasDistinctFilename(filename: string): Promise<Uri | undefined> {
+    // Cancellation
+    findCancellationTokensCache.get(filename)?.cancel();
+    const cancellationTokenSource = new CancellationTokenSource();
+    findCancellationTokensCache.set(filename, cancellationTokenSource);
+
     const distinctFileName = workspaceDistinctFilenameCache.get(filename);
     if (distinctFileName !== undefined) {
+        // Dispose of "own" token
+        cancellationTokenSource.dispose();
         return distinctFileName;
     }
 
-    const matches = await workspace.findFiles(`**/${filename}`); // Is `.git` folder excluded?
+    // Stop after potentially two matches, no need to check further
+    const matches = await workspace.findFiles(`**/${filename}`, '', 2, cancellationTokenSource.token); // Is `.git` folder excluded?
+    // Cancellation doesn't throw and execution continues
+    // Make sure not to remove the wrong token, otherwise the following events might happen:
+    // 1 start -> adds token
+    // 2 start -> cancels 1 -> replaces token
+    // 1 stops search execution -> removes token
+    // 3 start -> no token to cancel
+    // 1 and 3 are ongoing
+    if(cancellationTokenSource === findCancellationTokensCache.get(filename)) {
+        // If "own" token means it hasn't been cancelled and replaced yet
+        findCancellationTokensCache.delete(filename);
+    }
+    // Dispose of "own" token
+    cancellationTokenSource.dispose();
+
     if (matches.length === 1) {
         workspaceDistinctFilenameCache.set(filename, matches[0]);
         return matches[0];
