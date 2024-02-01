@@ -180,4 +180,12 @@ export const mockVscode = {
     Disposable: class {
         dispose() {}
     },
+    CancellationTokenSource: class {
+        token = {
+            isCancellationRequested: false,
+            onCancellationRequested() {}
+        };
+        cancel() {}
+        dispose() {}
+    }
 };
