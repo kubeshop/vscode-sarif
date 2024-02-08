@@ -1,5 +1,6 @@
 {
     "files.exclude": {
+        "**/out": true,
         "**/dist": true,
         "**/node_modules": true,
         "common/temp": true,

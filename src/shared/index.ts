@@ -229,15 +229,15 @@ export const filtersRow: Record<string, Record<string, Visibility>> = {
     Suppression: {
         'Not Suppressed': 'visible',
         'Under Review': 'visible',
-        'Suppressed': false,
+        'Suppressed': 'visible',
     },
 };
 
 export const filtersColumn: Record<string, Record<string, Visibility>> = {
     Columns: {
         'Baseline': false,
-        'Suppression': false,
-        'Rule': false,
+        'Suppression': 'visible',
+        'Rule': 'visible',
     },
 };
 
