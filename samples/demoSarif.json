@@ -26,6 +26,50 @@
                             }
                         }
                     ]
+                },
+                {
+                    "ruleId": "DEMO02",
+                    "message": {
+                        "text": "A result 2"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "file:///foo/baz/bar.txt"
+                                }
+                            }
+                        }
+                    ],
+                    "suppressions": [
+                        {
+                            "guid": "id2",
+                            "kind": "external",
+                            "status": "underReview"
+                        }
+                    ]
+                },
+                {
+                    "ruleId": "DEMO03",
+                    "message": {
+                        "text": "Result 3"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uri": "file:///foo/baz/bar.txt"
+                                }
+                            }
+                        }
+                    ],
+                    "suppressions": [
+                        {
+                            "guid": "id3",
+                            "kind": "external",
+                            "status": "suppressed"
+                        }
+                    ]
                 }
             ]
         }

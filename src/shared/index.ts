@@ -44,7 +44,7 @@ declare module 'sarif' {
         _rule?: ReportingDescriptor;
         _message: string; // '—' if empty.
         _markdown?: string;
-        _suppression?: 'not suppressed' | 'suppressed';
+        _suppression?: 'not suppressed' | 'under review' | 'suppressed';
     }
 }
 
@@ -131,7 +131,7 @@ export function augmentLog(log: Log, rules?: Map<string, ReportingDescriptor>, w
             result.baselineState = result.baselineState ?? 'new';
             result._suppression = !result.suppressions || result.suppressions.every(sup => sup.status === 'rejected')
                 ? 'not suppressed'
-                : 'suppressed';
+                : (result.suppressions.every(sup => sup.status === 'underReview') ? 'under review' : 'suppressed');
         });
     });
     log._distinct = mapDistinct(fileAndUris);
@@ -228,6 +228,7 @@ export const filtersRow: Record<string, Record<string, Visibility>> = {
     },
     Suppression: {
         'Not Suppressed': 'visible',
+        'Under Review': 'visible',
         'Suppressed': false,
     },
 };

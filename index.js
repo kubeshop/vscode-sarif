@@ -19,6 +19,7 @@
             },
             Suppression: {
                 'Not Suppressed': true,
+                'Under Review': true,
                 'Suppressed': false,
             },
         },
