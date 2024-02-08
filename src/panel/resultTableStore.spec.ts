@@ -26,13 +26,13 @@ describe('ResultTableStore', () => {
         assert.deepStrictEqual(resultTableStore.columns.map((col) => col.name), ['Line', 'File', 'Message', 'Baseline', 'Suppression', 'Rule']);
 
         const resultTableStore1 = new ResultTableStore('File', result => result._relativeUri, resultsSource, filtersSource, selection);
-        assert.deepStrictEqual(resultTableStore1.visibleColumns.map((col) => col.name), ['Line', 'Message']);
+        assert.deepStrictEqual(resultTableStore1.visibleColumns.map((col) => col.name), ['Line', 'Message', 'Suppression', 'Rule']);
 
         const resultTableStore2 = new ResultTableStore('Line', result => result._region?.startLine ?? 0, resultsSource, filtersSource, selection);
-        assert.deepStrictEqual(resultTableStore2.visibleColumns.map((col) => col.name), ['File', 'Message']);
+        assert.deepStrictEqual(resultTableStore2.visibleColumns.map((col) => col.name), ['File', 'Message', 'Suppression', 'Rule']);
 
         const resultTableStore3 = new ResultTableStore('Message', result => result._message, resultsSource, filtersSource, selection);
-        assert.deepStrictEqual(resultTableStore3.visibleColumns.map((col) => col.name), ['Line', 'File']);
+        assert.deepStrictEqual(resultTableStore3.visibleColumns.map((col) => col.name), ['Line', 'File', 'Suppression', 'Rule']);
     });
 
     it.skip('groups the rows and rowItems based the grouping logic applied on resultsSource', () => {

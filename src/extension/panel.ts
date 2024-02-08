@@ -72,10 +72,13 @@ export class Panel {
         const srcPanel = Uri.file(`${context.extensionPath}/out/panel.js`);
         const srcInit = Uri.file(`${context.extensionPath}/out/init.js`);
         const defaultState = {
-            version: 0,
+            version: 1,
             filtersRow,
             filtersColumn,
         };
+
+        const savedState = Store.globalState.get('view', defaultState);
+        const latestState = !savedState || savedState.version !== defaultState.version ? defaultState : savedState;
 
         // JSON.stringify emits double quotes. To not conflict, certain attribute values use single quotes.
         webview.html = `<!DOCTYPE html>
@@ -90,7 +93,7 @@ export class Panel {
                     script-src  vscode-resource:;
                     style-src   vscode-resource: 'unsafe-inline';
                     ">
-                <meta name="storeState"        content='${JSON.stringify(Store.globalState.get('view', defaultState))}'>
+                <meta name="storeState"        content='${JSON.stringify(latestState)}'>
                 <meta name="storeWorkspaceUri" content="${workspace.workspaceFolders?.[0]?.uri.toString() ?? ''}">
                 <meta name="storeBanner"       content='${store.banner}'>
                 <style>
